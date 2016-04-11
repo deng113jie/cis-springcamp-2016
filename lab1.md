@@ -117,4 +117,4 @@
 <p><a href="http://spark.apache.org/docs/latest/ml-guide.html" class="_blanktarget">http://spark.apache.org/docs/latest/ml-guide.html</a></p>
 <p></p>
 <h3>BONUS 2: Creating Spark projects </h3>
-<p></p></div></div><div class="modified">Last modified: Monday, 11 April 2016, 3:28 PM</div></div>                </section>
+</section>
