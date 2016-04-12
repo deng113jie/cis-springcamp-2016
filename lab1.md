@@ -53,7 +53,7 @@
 <p>Another transformation that's very important, and is puported to be a buliding block of the map reduce paradigm is...map !</p>
 <p>The map takes one line or element at a time, and transforms it to another. Let's take the following example : let's determine the maximum number of viewer that every channel has reached during the study.</p>
 <p>First, we map each line in order to have couples of the form (<strong>The channel name, number of viewers</strong>). Note that a channel will have several of these lines with different number of viewers depending on the recording time.</p>
-<pre><code>val audience = freads.map(x =&gt; (x.split("\t")(5), x.split("\t")(1).toInt))</code></pre>
+<pre><code>val audience = freads.map(x =&gt; (x.split("\t")(3), x.split("\t")(1).toInt))</code></pre>
 <p>As the second part of the list is an integer we can use the stats() action for Spark to compute some information about the split in channel popularity across the dataset. In order to select the second element of a tuple, we map the tuple to its ._2 part (._1 would select the first one, so it is not zero indexed).</p>
 <pre><code>audience.map(x=&gt;x._2).stats()</code></pre>
 <p>Try taking a relatively large sample of audience, and notice that many of the channels have the name null or empty string, these lines are misleading as they represent corrupted data. Try filtering</p>
@@ -80,7 +80,7 @@
 </ul>
 <p>If you find it difficult to find out how to do it, The code for that is the following  :</p>
 <pre>audience.aggregateByKey((<span class="pl-c1">0</span>,<span class="pl-c1">0</span>))(<br />        (acc,value) <span class="pl-k">=&gt;</span> (acc._1 <span class="pl-k">+</span> value, acc._2 <span class="pl-k">+</span> <span class="pl-c1">1</span>),
-        (acc1,acc2) <span class="pl-k">=&gt;</span> (acc1._1 <span class="pl-k">+</span> acc2._1, acc1._2 <span class="pl-k">+</span> acc2._2))<br />        .mapValues(sumCount <span class="pl-k">=&gt;</span> <span class="pl-c1">1.0</span> <span class="pl-k">*</span> sumCount._1 <span class="pl-k">/</span> sumCount._2)<code><br />         .</code>sortBy(_._2)<br />        .take(10)</pre>
+        (acc1,acc2) <span class="pl-k">=&gt;</span> (acc1._1 <span class="pl-k">+</span> acc2._1, acc1._2 <span class="pl-k">+</span> acc2._2))<br />        .mapValues(sumCount <span class="pl-k">=&gt;</span> <span class="pl-c1">1.0</span> <span class="pl-k">*</span> sumCount._1 <span class="pl-k">/</span> sumCount._2)<code><br /></code><br />        .sortBy(_._2, false)<br />        .take(10)</pre>
 <ul>
 <li>What is the day with the highest number of registered views from the dataset? Now you will need to select the day (can be extracted from the date by doing...), and group the data by day rather than the specific game.</li>
 </ul>
