@@ -44,7 +44,7 @@
 <p><em><strong>timestamp(integer)  number_of_current_viewers  total_views_of_channel  game_name   channel_creation_time   streamer_id  user_create_time  language  partner?(boolean) delay number_of_followers</strong></em></p>
 <p>for example, here's an example of such a line :</p>
 <p><strong>1420291196      14835   6337669    "League of Legends"     "2015-01-03T09:06:12Z"  "sneakycastroo"   "2011-09-02T23:16:11Z"   "ru"    true      0       152659</strong></p>
-<p>First, and in almost every data collection process, the data is not clean due to different reasons ; failures in the collection process, bugs, etc.</p>
+<p>First, and in almost every data collection process, the data is not clean due to different reasons; failures in the collection process, bugs, etc.</p>
 <p>Let's filter the data first, that means only getting the data that is compliant to the format above,</p>
 <pre><code>val freads = reads.filter(x=&gt;x.split("\t").length==11)</code></pre>
 <p>We can also apply more complicated filters, for example, look for channels with old streamers subscribed before 2012</p>
@@ -67,7 +67,7 @@
 <p><strong>Advanced Excercise :</strong></p>
 <p>By using these functions, try to write the following programs, and answer the following questions.</p>
 <ul>
-<li>Get the viewing figures per game. What is the most popular game on average? You can reduce averages by using <em>RDD.aggregateByKey(initialization),function_one, function_two)</em>. We will use an accumulator which is two values, (sum, number_of_elements). The sum is the sum of the viewers over all periods so far, and the number of elemsnts is how many elements have with the same key have we summed so far. An aggregationByKey needs an initialization of the <em>accumulator</em>, and two function :
+<li>Get the viewing figures per game. What is the most popular game on average? You can reduce averages by using <em>RDD.aggregateByKey(initialization),function_one, function_two)</em>. We will use an accumulator which is two values, (sum, number_of_elements). The sum is the sum of the viewers over all periods so far, and the number of elements is how many elements have with the same key have we summed so far. An aggregationByKey needs an initialization of the <em>accumulator</em>, and two function :
 <ul>
 <li>The first is to aggregate between (aggregated_value, intermediate_aggr) + (value)</li>
 <li>The second to aggregate couples of (aggregated_value1, intermediate_aggr1) + (aggregated_value2, intermediate_aggr2). Try looking for the aggregator on the official Spark Documentation to get used to this reflexe.</li>
@@ -90,7 +90,8 @@
 <p>Persisted RDDs are kept in memory after executing the first time. This means that multiple transformations and actions over them will be executed substantially faster, as there is no need to recreate them from HDFS, as well as previous transformation steps. We will take advantage of that to interact with it, checking what is the count for several words. </p>
 <p>We will use the filter transformation (see Spark documentation) to select only one element from the results. As we want to get the count for a specific word, we need to select the item from the RDD whose key is the word we are looking for. We can select the first element of a Scala tuple with the expression tuple._1 as shown in the code below.</p>
 <p>Additionally, we need to invoke an action after our transformation, as otherwise the single value will be still distributed in the cluster. By invoking collect on the filtered RDD we will get back the result we are looking for to our driver program. The following Spark instruction will therefore return the value we are looking for:</p>
-<pre>inmem.filter(pair=&gt;pair._1.equals("LeagueOfLegends")).collect()</pre>
+<pre>inmem.filter(pair=&gt;pair._1.equals("\"LeagueOfLegends\"")).collect()</pre>
+Note that the quotes are part of the string so they need to be included and escaped.
 <ul>
 <li>What is the peak audience for the game LeagueOfLegends in a single channel?  Modify now this last query (you can push the up arrow in the keyboard to reload the last command for quickly editing), and check the popularity of other games streamed through a single channel (e.g. "Hearthstone"). You should see substantially improved performance for all these subsequent invocations. This is thanks to the persist() transformation we invoked early. You can  </li>
 </ul>
