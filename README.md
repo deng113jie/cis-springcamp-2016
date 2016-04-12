@@ -9,6 +9,6 @@ http://spark.apache.org/docs/latest/graphx-programming-guide.html
 
 
 
-The syntex of Scala is not that complicated:
+The syntax of Scala is not that complicated:
 
 http://www.scala-lang.org/documentation/getting-started.html
